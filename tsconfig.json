@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
-    "strict": true,
+    "module": "ESNext", // ✅ современный ESM
+    "moduleResolution": "node",
     "outDir": "dist",
-    "esModuleInterop": true
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
   "include": ["src"]
 }
