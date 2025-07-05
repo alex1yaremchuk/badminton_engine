@@ -1,25 +1,41 @@
-import { Player, RallyResult } from './types.js';
+import { Player, RallyResult, Logger } from './types.js';
 
-export function calculateResponse(player: Player, incoming: number, risk = 1): number {
+export function calculateResponse(
+  player: Player,
+  incoming: number,
+  risk = 1,
+  logger?: Logger
+): number {
   const product = player.technique * player.mind * player.physique * player.emotion;
   let quality = (product / 1000) * ((10 - incoming) / 10) * risk;
   if (quality > 10) quality = 10;
   if (quality < 0) quality = 0;
+  logger?.log('rallyDetailed', `${player.name} responds ${quality.toFixed(2)} to ${incoming}`);
   return quality;
 }
 
-export function simulateRally(server: Player, receiver: Player, firstShot = 5, risk = 1): RallyResult {
+export function simulateRally(
+  server: Player,
+  receiver: Player,
+  firstShot = 5,
+  risk = 1,
+  logger?: Logger
+): RallyResult {
   let hitter = receiver;
   let defender = server;
   let incoming = firstShot;
   const log = [incoming];
+  logger?.log('rally', `Rally starts. Server ${server.name} first ${firstShot}`);
   while (true) {
-    const response = calculateResponse(hitter, incoming, risk);
+    const response = calculateResponse(hitter, incoming, risk, logger);
     log.push(response);
+    logger?.log('rallyDetailed', `${hitter.name} -> ${response.toFixed(2)}`);
     if (response >= 9) {
+      logger?.log('rally', `Rally winner ${hitter.name}`);
       return { winner: hitter, log };
     }
     if (response <= 2) {
+      logger?.log('rally', `Rally winner ${defender.name}`);
       return { winner: defender, log };
     }
     incoming = response;

@@ -1,2 +1,9 @@
 export { simulateMatch } from './match.js';
-export type { Player, GameResult, MatchResult } from './types.js';
+export type {
+  Player,
+  GameResult,
+  MatchResult,
+  Logger,
+  LogLevel
+} from './types.js';
+export { ConsoleLogger } from './types.js';

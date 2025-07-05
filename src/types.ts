@@ -21,3 +21,19 @@ export interface MatchResult {
   winner: Player;
   games: GameResult[];
 }
+
+export type LogLevel = 'rallyDetailed' | 'rally' | 'game' | 'match';
+
+export interface Logger {
+  log(level: LogLevel, message: string): void;
+}
+
+export class ConsoleLogger implements Logger {
+  constructor(private enabled: Set<LogLevel>) {}
+
+  log(level: LogLevel, message: string): void {
+    if (this.enabled.has(level)) {
+      console.log(`[${level}] ${message}`);
+    }
+  }
+}
