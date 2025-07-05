@@ -5,6 +5,7 @@ export interface Player {
   physique: number;
   emotion: number;
   serve: number;
+  fatigue?: number;
 }
 
 export interface RallyResult {
