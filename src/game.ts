@@ -13,7 +13,7 @@ export function simulateGame(
   logger?.log('game', `Game start. Server ${server.name}`);
   while (true) {
     const receiver = serving === playerA ? playerB : playerA;
-    const { winner } = simulateRally(serving, receiver, 5, 1, logger);
+    const { winner } = simulateRally(serving, receiver, 1, logger);
     if (winner === serving) {
       if (serving === playerA) scoreA++; else scoreB++;
     } else {

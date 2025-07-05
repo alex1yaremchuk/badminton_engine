@@ -1,8 +1,8 @@
 import { simulateMatch } from './match.js';
 import { Player, ConsoleLogger, LogLevel } from './types.js';
 
-const player1: Player = { name: 'Alice', technique: 8, mind: 7, physique: 8, emotion: 6 };
-const player2: Player = { name: 'Bob', technique: 7, mind: 7, physique: 7, emotion: 7 };
+const player1: Player = { name: 'Alice', technique: 8, mind: 7, physique: 8, emotion: 6, serve: 6 };
+const player2: Player = { name: 'Bob', technique: 7, mind: 7, physique: 7, emotion: 7, serve: 5 };
 
 const logger = new ConsoleLogger(new Set<LogLevel>(['rallyDetailed', 'rally', 'game', 'match']));
 

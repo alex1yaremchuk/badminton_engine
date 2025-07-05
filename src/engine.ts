@@ -6,8 +6,9 @@ export function calculateResponse(
   risk = 1,
   logger?: Logger
 ): number {
-  const product = player.technique * player.mind * player.physique * player.emotion;
-  let quality = (product / 1000) * ((10 - incoming) / 10) * risk;
+  const mean =
+    (player.technique + player.mind + player.physique + player.emotion) / 4;
+  let quality = (mean + (5 - incoming)) * risk;
   if (quality > 10) quality = 10;
   if (quality < 0) quality = 0;
   logger?.log('rallyDetailed', `${player.name} responds ${quality.toFixed(2)} to ${incoming}`);
@@ -17,15 +18,14 @@ export function calculateResponse(
 export function simulateRally(
   server: Player,
   receiver: Player,
-  firstShot = 5,
   risk = 1,
   logger?: Logger
 ): RallyResult {
   let hitter = receiver;
   let defender = server;
-  let incoming = firstShot;
+  let incoming = server.serve;
   const log = [incoming];
-  logger?.log('rally', `Rally starts. Server ${server.name} first ${firstShot}`);
+  logger?.log('rally', `Rally starts. Server ${server.name} first ${incoming}`);
   while (true) {
     const response = calculateResponse(hitter, incoming, risk, logger);
     log.push(response);
