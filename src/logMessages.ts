@@ -13,8 +13,8 @@ export const logMessages = {
         ? `Розыгрыш начинается. Подает ${server}, первый удар ${first}`
         : `Rally starts. Server ${server} first ${first}`,
     ),
-  rallyWinner: (lang: Language, winner: string): LogMessage =>
-    msg('rally', lang === 'ru' ? `Очко выигрывает ${winner}` : `Rally winner ${winner}`),
+  rallyWinner: (lang: Language, winner: string, score: string): LogMessage =>
+    msg('rally', lang === 'ru' ? `Очко выигрывает ${winner}. Счёт: ${score}` : `Rally winner ${winner}. Score is ${score}.`),
   rallyResponse: (
     lang: Language,
     player: string,
@@ -55,11 +55,11 @@ export const logMessages = {
           )} | ${bName} F:${bFatigue.toFixed(2)} E:${bEmotion.toFixed(2)}`,
     ),
   score: (lang: Language, a: number, b: number, serving: string): LogMessage =>
-    msg('game', lang === 'ru' ? `${a}-${b} подает ${serving}` : `${a}-${b} serving ${serving}`),
+    msg('rally', lang === 'ru' ? `${a}-${b} подает ${serving}` : `${a}-${b} serving ${serving}`),
   gameWinner: (lang: Language, winner: string): LogMessage =>
     msg('game', lang === 'ru' ? `Победа в гейме ${winner}` : `Game winner ${winner}`),
   matchStart: (lang: Language, a: string, b: string): LogMessage =>
-    msg('match', lang === 'ru' ? `🏸 Матч: ${a} против ${b}` : `🏸 Match: ${a} vs ${b}`),
+    msg('game', lang === 'ru' ? `🏸 Матч: ${a} против ${b}` : `🏸 Match: ${a} vs ${b}`),
   gameFinished: (
     lang: Language,
     scoreA: number,
@@ -67,17 +67,17 @@ export const logMessages = {
     winner: string,
   ) =>
     msg(
-      'match',
+      'game',
       lang === 'ru'
         ? `Гейм завершен ${scoreA}-${scoreB} победитель ${winner}`
         : `Game finished ${scoreA}-${scoreB} winner ${winner}`,
     ),
-  matchWinner: (lang: Language, winner: string, scores: number[]): LogMessage =>
+  matchWinner: (lang: Language, winner: string, loser: string, scores: number[]): LogMessage =>
     msg(
       'match',
       lang === 'ru'
-        ? `🏆 Победитель матча: ${winner} (${scores.join(', ')})`
-        : `🏆 Match winner: ${winner} (${scores.join(', ')})`,
+        ? `🏆 ${winner} победил ${loser} (${scores.join(', ')})`
+        : `🏆 ${winner} defeated  ${loser} (${scores.join(', ')})`,
     ),
   matchResultHeader: (lang: Language) =>
     msg('match', lang === 'ru' ? 'Результат матча:' : 'Match result:'),
@@ -89,7 +89,7 @@ export const logMessages = {
     winner: string,
   ) =>
     msg(
-      'match',
+      'game',
       lang === 'ru'
         ? `Гейм ${game}: ${scoreA}-${scoreB} победитель: ${winner}`
         : `Game ${game}: ${scoreA}-${scoreB} winner: ${winner}`,

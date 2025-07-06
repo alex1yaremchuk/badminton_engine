@@ -14,7 +14,7 @@ export function simulateGame(
   let serving = server;
   let streakA = 0;
   let streakB = 0;
-  logger?.log(logMessages.gameStart(logger?.language ?? "en", server.name));
+  // logger?.log(logMessages.gameStart(logger?.language ?? "en", server.name));
   while (true) {
     const scoreDiff = Math.abs(scoreA - scoreB);
     const isClose = scoreDiff <= 1;
@@ -88,6 +88,6 @@ export function simulateGame(
     if (scoreA === 30 || scoreB === 30) break;
   }
   const winner = scoreA > scoreB ? playerA : playerB;
-  logger?.log(logMessages.gameWinner(logger?.language ?? "en", winner.name));
+  // logger?.log(logMessages.gameWinner(logger?.language ?? "en", winner.name));
   return { winner, scoreA, scoreB };
 }

@@ -74,9 +74,10 @@ export function simulateRally(
     const [line1, line2] = formatRallyLog(server, receiver, log);
     logger?.log({ level: "rallyDetailed", text: line1 });
     logger?.log({ level: "rallyDetailed", text: line2 });
-    logger?.log(
-      logMessages.rallyWinner(logger?.language ?? "en", winner.name),
-    );
+    logger?.log({ level: "rallyDetailed", text: "" });
+    // logger?.log(
+    //   logMessages.rallyWinner(logger?.language ?? "en", winner.name),
+    // );
     return { winner, log };
   };
   while (true) {
@@ -92,7 +93,7 @@ export function simulateRally(
     if (response >= 9) {
       return finishRally(hitter);
     }
-    if (response <= 2) {
+    if (response <= 1) {
       return finishRally(defender);
     }
     incoming = response;

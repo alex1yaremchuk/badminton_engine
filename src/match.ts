@@ -23,30 +23,30 @@ export function simulateMatch(
     games.push(result);
     if (result.winner === playerA) winsA++;
     else winsB++;
-    // logger?.log(
-    //   'match',
-    //   logMessages.gameFinished(
-    //     logger?.language ?? 'en',
-    //     result.scoreA,
-    //     result.scoreB,
-    //     result.winner.name,
-    //   ),
-    // );
+    logger?.log(
+      logMessages.gameFinished(
+        logger?.language ?? 'en',
+        result.scoreA,
+        result.scoreB,
+        result.winner.name,
+      ),
+    );
     startingServer = startingServer === playerA ? playerB : playerA;
   }
   const winner = winsA > winsB ? playerA : playerB;
+  const loser = winsA < winsB ? playerA : playerB;
   // logger?.log("match", logMessages.matchResultHeader(logger?.language ?? "en"));
-  games.forEach((g, i) =>
-    logger?.log(
-      logMessages.matchResultGame(
-        logger?.language ?? "en",
-        i + 1,
-        g.scoreA,
-        g.scoreB,
-        g.winner.name,
-      ),
-    ),
-  );
+  // games.forEach((g, i) =>
+  //   logger?.log(
+  //     logMessages.matchResultGame(
+  //       logger?.language ?? "en",
+  //       i + 1,
+  //       g.scoreA,
+  //       g.scoreB,
+  //       g.winner.name,
+  //     ),
+  //   ),
+  // );
   const losingScores = games.map((g) => {
     if (g.winner === winner) {
       return g.winner === playerA ? g.scoreB : g.scoreA;
@@ -57,6 +57,7 @@ export function simulateMatch(
     logMessages.matchWinner(
       logger?.language ?? "en",
       winner.name,
+      loser.name,
       losingScores,
     ),
   );
