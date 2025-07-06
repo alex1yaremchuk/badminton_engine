@@ -1,20 +1,20 @@
-import { Player, MatchResult, GameResult, Logger } from './types.js';
-import { simulateGame } from './game.js';
-import { logMessages } from './logMessages.js';
+import { Player, MatchResult, GameResult, Logger } from "./types.js";
+import { simulateGame } from "./game.js";
+import { logMessages } from "./logMessages.js";
 
 export function simulateMatch(
   playerA: Player,
   playerB: Player,
-  logger?: Logger
+  logger?: Logger,
 ): MatchResult {
   let startingServer = playerA;
   const games: GameResult[] = [];
   let winsA = 0;
   let winsB = 0;
   logger?.log(
-    'match',
+    "match",
     logMessages.matchStart(
-      logger?.language ?? 'en',
+      logger?.language ?? "en",
       playerA.name,
       playerB.name,
     ),
@@ -22,35 +22,36 @@ export function simulateMatch(
   while (winsA < 2 && winsB < 2) {
     const result = simulateGame(playerA, playerB, startingServer, logger);
     games.push(result);
-    if (result.winner === playerA) winsA++; else winsB++;
-    logger?.log(
-      'match',
-      logMessages.gameFinished(
-        logger?.language ?? 'en',
-        result.scoreA,
-        result.scoreB,
-        result.winner.name,
-      ),
-    );
+    if (result.winner === playerA) winsA++;
+    else winsB++;
+    // logger?.log(
+    //   'match',
+    //   logMessages.gameFinished(
+    //     logger?.language ?? 'en',
+    //     result.scoreA,
+    //     result.scoreB,
+    //     result.winner.name,
+    //   ),
+    // );
     startingServer = startingServer === playerA ? playerB : playerA;
   }
   const winner = winsA > winsB ? playerA : playerB;
-  logger?.log('match', logMessages.matchResultHeader(logger?.language ?? 'en'));
+  // logger?.log("match", logMessages.matchResultHeader(logger?.language ?? "en"));
   games.forEach((g, i) =>
     logger?.log(
-      'match',
+      "match",
       logMessages.matchResultGame(
-        logger?.language ?? 'en',
+        logger?.language ?? "en",
         i + 1,
         g.scoreA,
         g.scoreB,
         g.winner.name,
       ),
-    )
+    ),
   );
   logger?.log(
-    'match',
-    logMessages.matchWinner(logger?.language ?? 'en', winner.name),
+    "match",
+    logMessages.matchWinner(logger?.language ?? "en", winner.name),
   );
   return { winner, games };
 }

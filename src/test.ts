@@ -11,7 +11,7 @@ const player1: Player = {
 };
 const player2: Player = {
   name: "Bob",
-  technique: 8,
+  technique: 7,
   mind: 7,
   physique: 5,
   emotion: 7,
@@ -19,7 +19,8 @@ const player2: Player = {
 };
 
 const logger = new ConsoleLogger(
-  new Set<LogLevel>(["rallyDetailed", "rally", "game", "match"]),
+  new Set<LogLevel>(["game", "rally"]),
+  // "rallyDetailed", "rally", "game",
   "ru",
 );
 simulateMatch(player1, player2, logger);

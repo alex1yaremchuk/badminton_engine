@@ -7,10 +7,13 @@ function formatRallyLog(
   receiver: Player,
   log: number[],
 ): [string, string] {
-  const width = 4;
-  const gap = "  ";
-  let lineServer = `${server.name}:`;
-  let lineReceiver = `${receiver.name}:`;
+  const width = 2;
+  const gap = "";
+
+  const maxNameLength = Math.max(server.name.length, receiver.name.length);
+
+  let lineServer = `${server.name.padEnd(maxNameLength, " ")}: `;
+  let lineReceiver = `${receiver.name.padEnd(maxNameLength, " ")}: `;
   for (let i = 0; i < log.length; i++) {
     const val = log[i].toFixed(1).padStart(width);
     if (i % 2 === 0) {

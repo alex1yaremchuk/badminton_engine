@@ -25,7 +25,7 @@ export interface MatchResult {
   games: GameResult[];
 }
 
-export type LogLevel = "rallyDetailed" | "rally" | "game" | "match";
+export type LogLevel = "debug" | "rallyDetailed" | "rally" | "game" | "match";
 
 import type { Language } from "./logMessages.js";
 

@@ -30,7 +30,7 @@ export function simulateGame(
     for (const p of tensePlayers) {
       const clutchPenalty = adjustByAttribute(2, p.emotion);
       logger?.log(
-        "rallyDetailed",
+        "debug",
         logMessages.clutchValue(
           logger?.language ?? "en",
           p.name,
@@ -41,7 +41,7 @@ export function simulateGame(
     }
 
     logger?.log(
-      "rallyDetailed",
+      "debug",
       logMessages.beforeRally(
         logger?.language ?? "en",
         playerA.name,
@@ -83,12 +83,7 @@ export function simulateGame(
     }
     logger?.log(
       "game",
-      logMessages.score(
-        logger?.language ?? "en",
-        scoreA,
-        scoreB,
-        serving.name,
-      ),
+      logMessages.score(logger?.language ?? "en", scoreA, scoreB, serving.name),
     );
     if ((scoreA >= 21 || scoreB >= 21) && Math.abs(scoreA - scoreB) >= 2) break;
     if (scoreA === 30 || scoreB === 30) break;
