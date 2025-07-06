@@ -14,10 +14,7 @@ export function simulateGame(
   let serving = server;
   let streakA = 0;
   let streakB = 0;
-  logger?.log(
-    "game",
-    logMessages.gameStart(logger?.language ?? "en", server.name),
-  );
+  logger?.log(logMessages.gameStart(logger?.language ?? "en", server.name));
   while (true) {
     const scoreDiff = Math.abs(scoreA - scoreB);
     const isClose = scoreDiff <= 1;
@@ -30,7 +27,6 @@ export function simulateGame(
     for (const p of tensePlayers) {
       const clutchPenalty = adjustByAttribute(2, p.emotion);
       logger?.log(
-        "debug",
         logMessages.clutchValue(
           logger?.language ?? "en",
           p.name,
@@ -41,7 +37,6 @@ export function simulateGame(
     }
 
     logger?.log(
-      "debug",
       logMessages.beforeRally(
         logger?.language ?? "en",
         playerA.name,
@@ -82,16 +77,17 @@ export function simulateGame(
       playerA.emotionState = 0;
     }
     logger?.log(
-      "game",
-      logMessages.score(logger?.language ?? "en", scoreA, scoreB, serving.name),
+      logMessages.score(
+        logger?.language ?? "en",
+        scoreA,
+        scoreB,
+        serving.name,
+      ),
     );
     if ((scoreA >= 21 || scoreB >= 21) && Math.abs(scoreA - scoreB) >= 2) break;
     if (scoreA === 30 || scoreB === 30) break;
   }
   const winner = scoreA > scoreB ? playerA : playerB;
-  logger?.log(
-    "game",
-    logMessages.gameWinner(logger?.language ?? "en", winner.name),
-  );
+  logger?.log(logMessages.gameWinner(logger?.language ?? "en", winner.name));
   return { winner, scoreA, scoreB };
 }

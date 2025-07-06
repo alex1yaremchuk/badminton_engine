@@ -12,7 +12,6 @@ export function simulateMatch(
   let winsA = 0;
   let winsB = 0;
   logger?.log(
-    "match",
     logMessages.matchStart(
       logger?.language ?? "en",
       playerA.name,
@@ -39,7 +38,6 @@ export function simulateMatch(
   // logger?.log("match", logMessages.matchResultHeader(logger?.language ?? "en"));
   games.forEach((g, i) =>
     logger?.log(
-      "match",
       logMessages.matchResultGame(
         logger?.language ?? "en",
         i + 1,
@@ -49,9 +47,18 @@ export function simulateMatch(
       ),
     ),
   );
+  const losingScores = games.map((g) => {
+    if (g.winner === winner) {
+      return g.winner === playerA ? g.scoreB : g.scoreA;
+    }
+    return -(g.winner === playerA ? g.scoreA : g.scoreB);
+  });
   logger?.log(
-    "match",
-    logMessages.matchWinner(logger?.language ?? "en", winner.name),
+    logMessages.matchWinner(
+      logger?.language ?? "en",
+      winner.name,
+      losingScores,
+    ),
   );
   return { winner, games };
 }

@@ -72,10 +72,9 @@ export function simulateRally(
       rallyFatigue.set(p, 0);
     }
     const [line1, line2] = formatRallyLog(server, receiver, log);
-    logger?.log("rallyDetailed", line1);
-    logger?.log("rallyDetailed", line2);
+    logger?.log({ level: "rallyDetailed", text: line1 });
+    logger?.log({ level: "rallyDetailed", text: line2 });
     logger?.log(
-      "rally",
       logMessages.rallyWinner(logger?.language ?? "en", winner.name),
     );
     return { winner, log };
