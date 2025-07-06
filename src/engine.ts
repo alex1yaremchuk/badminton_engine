@@ -1,4 +1,5 @@
 import { Player, RallyResult, Logger } from './types.js';
+import { adjustByAttribute } from './utils.js';
 
 export function calculateResponse(
   player: Player,
@@ -9,8 +10,9 @@ export function calculateResponse(
 ): number {
   const globalFatigue = player.fatigue ?? 0;
   const physique = Math.max(0, player.physique - globalFatigue - rallyFatigue);
+  const emotion = Math.max(0, player.emotion + (player.emotionState ?? 0));
   const mean =
-    (player.technique + player.mind + physique + player.emotion) / 4;
+    (player.technique + player.mind + physique + emotion) / 4;
   let quality = (mean + (5 - incoming)) * risk;
   quality += Math.random() * 4 - 2;
   if (quality > 10) quality = 10;
@@ -41,7 +43,9 @@ export function simulateRally(
   const finishRally = (winner: Player): RallyResult => {
     for (const p of [server, receiver]) {
       const f = rallyFatigue.get(p) ?? 0;
-      p.fatigue = (p.fatigue ?? 0) + f * 0.1;
+      const baseFatigue = f * 0.1;
+      const fatigueGain = adjustByAttribute(baseFatigue, p.physique);
+      p.fatigue = (p.fatigue ?? 0) + fatigueGain;
       rallyFatigue.set(p, 0);
     }
     logger?.log('rally', `Rally winner ${winner.name}`);
