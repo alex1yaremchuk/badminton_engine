@@ -16,6 +16,8 @@ export function simulateGame(
   let streakB = 0;
   // logger?.log(logMessages.gameStart(logger?.language ?? "en", server.name));
   while (true) {
+    const prevScoreA = scoreA;
+    const prevScoreB = scoreB;
     const scoreDiff = Math.abs(scoreA - scoreB);
     const isClose = scoreDiff <= 1;
     const tensePlayers: Player[] = [];
@@ -76,6 +78,14 @@ export function simulateGame(
       }
       playerA.emotionState = 0;
     }
+
+    const reached11 =
+      (scoreA === 11 && prevScoreA === 10) ||
+      (scoreB === 11 && prevScoreB === 10);
+    if (reached11) {
+      playerA.emotionState = 0;
+      playerB.emotionState = 0;
+    }
     logger?.log(
       logMessages.score(
         logger?.language ?? "en",
@@ -88,6 +98,8 @@ export function simulateGame(
     if (scoreA === 30 || scoreB === 30) break;
   }
   const winner = scoreA > scoreB ? playerA : playerB;
+  playerA.emotionState = 0;
+  playerB.emotionState = 0;
   // logger?.log(logMessages.gameWinner(logger?.language ?? "en", winner.name));
   return { winner, scoreA, scoreB };
 }
