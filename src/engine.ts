@@ -1,6 +1,6 @@
-import { Player, RallyResult, Logger } from './types.js';
-import { adjustByAttribute } from './utils.js';
-import { logMessages } from './logMessages.js';
+import { Player, RallyResult, Logger } from "./types.js";
+import { adjustByAttribute } from "./utils.js";
+import { logMessages } from "./logMessages.js";
 
 function formatRallyLog(
   server: Player,
@@ -14,10 +14,10 @@ function formatRallyLog(
     const val = log[i].toFixed(1).padStart(width);
     if (i % 2 === 0) {
       lineServer += val;
-      lineReceiver += ' '.repeat(width);
+      lineReceiver += " ".repeat(width);
     } else {
       lineReceiver += val;
-      lineServer += ' '.repeat(width);
+      lineServer += " ".repeat(width);
     }
   }
   return [lineServer, lineReceiver];
@@ -28,13 +28,12 @@ export function calculateResponse(
   incoming: number,
   risk = 1,
   rallyFatigue = 0,
-  logger?: Logger
+  logger?: Logger,
 ): number {
   const globalFatigue = player.fatigue ?? 0;
   const physique = Math.max(0, player.physique - globalFatigue - rallyFatigue);
   const emotion = Math.max(0, player.emotion + (player.emotionState ?? 0));
-  const mean =
-    (player.technique + player.mind + physique + emotion) / 4;
+  const mean = (player.technique + player.mind + physique + emotion) / 4;
   let quality = (mean + (5 - incoming)) * risk;
   quality += Math.random() * 4 - 2;
   if (quality > 10) quality = 10;
@@ -48,7 +47,7 @@ export function simulateRally(
   server: Player,
   receiver: Player,
   risk = 1,
-  logger?: Logger
+  logger?: Logger,
 ): RallyResult {
   let hitter = receiver;
   let defender = server;
@@ -59,14 +58,6 @@ export function simulateRally(
   let incoming = server.serve + Math.random() * 4 - 2;
   rallyFatigue.set(server, 0.2);
   const log = [incoming];
-  logger?.log(
-    'rally',
-    logMessages.rallyStart(
-      logger?.language ?? 'en',
-      server.name,
-      incoming,
-    ),
-  );
   const finishRally = (winner: Player): RallyResult => {
     for (const p of [server, receiver]) {
       const f = rallyFatigue.get(p) ?? 0;
@@ -76,17 +67,23 @@ export function simulateRally(
       rallyFatigue.set(p, 0);
     }
     const [line1, line2] = formatRallyLog(server, receiver, log);
-    logger?.log('rallyDetailed', line1);
-    logger?.log('rallyDetailed', line2);
+    logger?.log("rallyDetailed", line1);
+    logger?.log("rallyDetailed", line2);
     logger?.log(
-      'rally',
-      logMessages.rallyWinner(logger?.language ?? 'en', winner.name),
+      "rally",
+      logMessages.rallyWinner(logger?.language ?? "en", winner.name),
     );
     return { winner, log };
   };
   while (true) {
     const hitterFatigue = rallyFatigue.get(hitter) ?? 0;
-    const response = calculateResponse(hitter, incoming, risk, hitterFatigue, logger);
+    const response = calculateResponse(
+      hitter,
+      incoming,
+      risk,
+      hitterFatigue,
+      logger,
+    );
     log.push(response);
     if (response >= 9) {
       return finishRally(hitter);

@@ -25,9 +25,9 @@ export interface MatchResult {
   games: GameResult[];
 }
 
-export type LogLevel = 'rallyDetailed' | 'rally' | 'game' | 'match';
+export type LogLevel = "rallyDetailed" | "rally" | "game" | "match";
 
-import type { Language } from './logMessages.js';
+import type { Language } from "./logMessages.js";
 
 export interface Logger {
   language: Language;
@@ -37,7 +37,7 @@ export interface Logger {
 export class ConsoleLogger implements Logger {
   constructor(
     private enabled: Set<LogLevel>,
-    public language: Language = 'en',
+    public language: Language = "en",
   ) {}
 
   log(level: LogLevel, message: string): void {
@@ -51,7 +51,7 @@ export class HtmlLogger implements Logger {
   private logs: string[] = [];
   constructor(
     private enabled: Set<LogLevel>,
-    public language: Language = 'en',
+    public language: Language = "en",
   ) {}
 
   log(level: LogLevel, message: string): void {
@@ -61,6 +61,6 @@ export class HtmlLogger implements Logger {
   }
 
   toHtml(): string {
-    return this.logs.join('\n');
+    return this.logs.join("\n");
   }
 }
