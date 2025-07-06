@@ -12,27 +12,32 @@ export function simulateGame(
   let scoreA = 0;
   let scoreB = 0;
   let serving = server;
+  let streakA = 0;
+  let streakB = 0;
   logger?.log(
     "game",
     logMessages.gameStart(logger?.language ?? "en", server.name),
   );
   while (true) {
     const scoreDiff = Math.abs(scoreA - scoreB);
-    const scoreAny = Math.max(scoreA, scoreB);
-    const isTenseMoment = scoreDiff <= 1 || scoreAny >= 19;
-    if (isTenseMoment) {
-      for (const p of [playerA, playerB]) {
-        const clutchPenalty = adjustByAttribute(2, p.emotion);
-        logger?.log(
-          "rallyDetailed",
-          logMessages.clutchValue(
-            logger?.language ?? "en",
-            p.name,
-            clutchPenalty,
-          ),
-        );
-        p.emotionState = (p.emotionState ?? 0) - clutchPenalty;
-      }
+    const isClose = scoreDiff <= 1;
+    const tensePlayers: Player[] = [];
+    if (isClose) {
+      tensePlayers.push(playerA, playerB);
+    }
+    if (scoreA >= 19) tensePlayers.push(playerA);
+    if (scoreB >= 19) tensePlayers.push(playerB);
+    for (const p of tensePlayers) {
+      const clutchPenalty = adjustByAttribute(2, p.emotion);
+      logger?.log(
+        "rallyDetailed",
+        logMessages.clutchValue(
+          logger?.language ?? "en",
+          p.name,
+          clutchPenalty,
+        ),
+      );
+      p.emotionState = (p.emotionState ?? 0) - clutchPenalty;
     }
 
     logger?.log(
@@ -59,9 +64,23 @@ export function simulateGame(
       else scoreB++;
       serving = receiver;
     }
-    const penalty = adjustByAttribute(0.5, loser.emotion);
-    loser.emotionState = (loser.emotionState ?? 0) - penalty;
-    winner.emotionState = 0;
+    if (loser === playerA) {
+      streakA++;
+      streakB = 0;
+      if (streakA <= 3) {
+        const penalty = adjustByAttribute(0.5, playerA.emotion);
+        playerA.emotionState = (playerA.emotionState ?? 0) - penalty;
+      }
+      playerB.emotionState = 0;
+    } else {
+      streakB++;
+      streakA = 0;
+      if (streakB <= 3) {
+        const penalty = adjustByAttribute(0.5, playerB.emotion);
+        playerB.emotionState = (playerB.emotionState ?? 0) - penalty;
+      }
+      playerA.emotionState = 0;
+    }
     logger?.log(
       "game",
       logMessages.score(

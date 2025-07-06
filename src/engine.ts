@@ -7,17 +7,18 @@ function formatRallyLog(
   receiver: Player,
   log: number[],
 ): [string, string] {
-  const width = 6;
+  const width = 4;
+  const gap = "  ";
   let lineServer = `${server.name}:`;
   let lineReceiver = `${receiver.name}:`;
   for (let i = 0; i < log.length; i++) {
     const val = log[i].toFixed(1).padStart(width);
     if (i % 2 === 0) {
-      lineServer += val;
-      lineReceiver += " ".repeat(width);
+      lineServer += gap + val;
+      lineReceiver += gap + " ".repeat(width);
     } else {
-      lineReceiver += val;
-      lineServer += " ".repeat(width);
+      lineReceiver += gap + val;
+      lineServer += gap + " ".repeat(width);
     }
   }
   return [lineServer, lineReceiver];
@@ -55,7 +56,8 @@ export function simulateRally(
     [server, 0],
     [receiver, 0],
   ]);
-  let incoming = server.serve + Math.random() * 4 - 2;
+  const serveEmotion = Math.max(0, server.emotion + (server.emotionState ?? 0));
+  let incoming = (server.serve + serveEmotion) / 2 + Math.random() * 4 - 2;
   rallyFatigue.set(server, 0.2);
   const log = [incoming];
   const finishRally = (winner: Player): RallyResult => {

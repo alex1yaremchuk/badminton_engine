@@ -35,6 +35,19 @@ export function simulateMatch(
     startingServer = startingServer === playerA ? playerB : playerA;
   }
   const winner = winsA > winsB ? playerA : playerB;
+  logger?.log('match', logMessages.matchResultHeader(logger?.language ?? 'en'));
+  games.forEach((g, i) =>
+    logger?.log(
+      'match',
+      logMessages.matchResultGame(
+        logger?.language ?? 'en',
+        i + 1,
+        g.scoreA,
+        g.scoreB,
+        g.winner.name,
+      ),
+    )
+  );
   logger?.log(
     'match',
     logMessages.matchWinner(logger?.language ?? 'en', winner.name),

@@ -63,4 +63,16 @@ export const logMessages = {
       : `Game finished ${scoreA}-${scoreB} winner ${winner}`,
   matchWinner: (lang: Language, winner: string) =>
     lang === 'ru' ? `Матч выиграл ${winner}` : `Match winner ${winner}`,
+  matchResultHeader: (lang: Language) =>
+    lang === 'ru' ? 'Результат матча:' : 'Match result:',
+  matchResultGame: (
+    lang: Language,
+    game: number,
+    scoreA: number,
+    scoreB: number,
+    winner: string,
+  ) =>
+    lang === 'ru'
+      ? `Игра ${game}: ${scoreA}-${scoreB} победитель: ${winner}`
+      : `Game ${game}: ${scoreA}-${scoreB} winner: ${winner}`,
 } as const;
