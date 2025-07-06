@@ -27,12 +27,18 @@ export interface MatchResult {
 
 export type LogLevel = 'rallyDetailed' | 'rally' | 'game' | 'match';
 
+import type { Language } from './logMessages.js';
+
 export interface Logger {
+  language: Language;
   log(level: LogLevel, message: string): void;
 }
 
 export class ConsoleLogger implements Logger {
-  constructor(private enabled: Set<LogLevel>) {}
+  constructor(
+    private enabled: Set<LogLevel>,
+    public language: Language = 'en',
+  ) {}
 
   log(level: LogLevel, message: string): void {
     if (this.enabled.has(level)) {

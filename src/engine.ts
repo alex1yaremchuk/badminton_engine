@@ -1,5 +1,6 @@
 import { Player, RallyResult, Logger } from './types.js';
 import { adjustByAttribute } from './utils.js';
+import { logMessages } from './logMessages.js';
 
 export function calculateResponse(
   player: Player,
@@ -19,7 +20,12 @@ export function calculateResponse(
   if (quality < 0) quality = 0;
   logger?.log(
     'rallyDetailed',
-    `${player.name} responds ${quality.toFixed(2)} to ${incoming}`
+    logMessages.rallyResponse(
+      logger?.language ?? 'en',
+      player.name,
+      quality,
+      incoming,
+    ),
   );
   return quality;
 }
@@ -39,7 +45,14 @@ export function simulateRally(
   let incoming = server.serve + Math.random() * 4 - 2;
   rallyFatigue.set(server, 0.2);
   const log = [incoming];
-  logger?.log('rally', `Rally starts. Server ${server.name} first ${incoming}`);
+  logger?.log(
+    'rally',
+    logMessages.rallyStart(
+      logger?.language ?? 'en',
+      server.name,
+      incoming,
+    ),
+  );
   const finishRally = (winner: Player): RallyResult => {
     for (const p of [server, receiver]) {
       const f = rallyFatigue.get(p) ?? 0;
@@ -48,7 +61,10 @@ export function simulateRally(
       p.fatigue = (p.fatigue ?? 0) + fatigueGain;
       rallyFatigue.set(p, 0);
     }
-    logger?.log('rally', `Rally winner ${winner.name}`);
+    logger?.log(
+      'rally',
+      logMessages.rallyWinner(logger?.language ?? 'en', winner.name),
+    );
     return { winner, log };
   };
   while (true) {

@@ -20,6 +20,7 @@ const player2: Player = {
 
 const logger = new ConsoleLogger(
   new Set<LogLevel>(["rallyDetailed", "rally", "game", "match"]),
+  "en",
 );
 
 const result = simulateMatch(player1, player2, logger);
