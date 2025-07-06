@@ -2,6 +2,27 @@ import { Player, RallyResult, Logger } from './types.js';
 import { adjustByAttribute } from './utils.js';
 import { logMessages } from './logMessages.js';
 
+function formatRallyLog(
+  server: Player,
+  receiver: Player,
+  log: number[],
+): [string, string] {
+  const width = 6;
+  let lineServer = `${server.name}:`;
+  let lineReceiver = `${receiver.name}:`;
+  for (let i = 0; i < log.length; i++) {
+    const val = log[i].toFixed(1).padStart(width);
+    if (i % 2 === 0) {
+      lineServer += val;
+      lineReceiver += ' '.repeat(width);
+    } else {
+      lineReceiver += val;
+      lineServer += ' '.repeat(width);
+    }
+  }
+  return [lineServer, lineReceiver];
+}
+
 export function calculateResponse(
   player: Player,
   incoming: number,
@@ -18,15 +39,8 @@ export function calculateResponse(
   quality += Math.random() * 4 - 2;
   if (quality > 10) quality = 10;
   if (quality < 0) quality = 0;
-  logger?.log(
-    'rallyDetailed',
-    logMessages.rallyResponse(
-      logger?.language ?? 'en',
-      player.name,
-      quality,
-      incoming,
-    ),
-  );
+  // logging of every stroke is removed; rally summary will be logged at the end
+  // with the new compact representation
   return quality;
 }
 
@@ -61,6 +75,9 @@ export function simulateRally(
       p.fatigue = (p.fatigue ?? 0) + fatigueGain;
       rallyFatigue.set(p, 0);
     }
+    const [line1, line2] = formatRallyLog(server, receiver, log);
+    logger?.log('rallyDetailed', line1);
+    logger?.log('rallyDetailed', line2);
     logger?.log(
       'rally',
       logMessages.rallyWinner(logger?.language ?? 'en', winner.name),
