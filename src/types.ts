@@ -46,3 +46,21 @@ export class ConsoleLogger implements Logger {
     }
   }
 }
+
+export class HtmlLogger implements Logger {
+  private logs: string[] = [];
+  constructor(
+    private enabled: Set<LogLevel>,
+    public language: Language = 'en',
+  ) {}
+
+  log(level: LogLevel, message: string): void {
+    if (this.enabled.has(level)) {
+      this.logs.push(`<p>[${level}] ${message}</p>`);
+    }
+  }
+
+  toHtml(): string {
+    return this.logs.join('\n');
+  }
+}
