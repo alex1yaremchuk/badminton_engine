@@ -7,3 +7,4 @@ export type {
   LogLevel
 } from './types.js';
 export { ConsoleLogger } from './types.js';
+export type { Language } from './logMessages.js';
