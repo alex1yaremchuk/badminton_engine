@@ -4,7 +4,8 @@ export type {
   GameResult,
   MatchResult,
   Logger,
-  LogLevel
+  LogLevel,
+  LogMessage
 } from './types.js';
 export { ConsoleLogger } from './types.js';
 export { HtmlLogger } from './types.js';

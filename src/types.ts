@@ -29,9 +29,14 @@ export type LogLevel = "debug" | "rallyDetailed" | "rally" | "game" | "match";
 
 import type { Language } from "./logMessages.js";
 
+export interface LogMessage {
+  level: LogLevel;
+  text: string;
+}
+
 export interface Logger {
   language: Language;
-  log(level: LogLevel, message: string): void;
+  log(message: LogMessage): void;
 }
 
 export class ConsoleLogger implements Logger {
@@ -40,9 +45,9 @@ export class ConsoleLogger implements Logger {
     public language: Language = "en",
   ) {}
 
-  log(level: LogLevel, message: string): void {
-    if (this.enabled.has(level)) {
-      console.log(`[${level}] ${message}`);
+  log(message: LogMessage): void {
+    if (this.enabled.has(message.level)) {
+      console.log(`[${message.level}] ${message.text}`);
     }
   }
 }
@@ -54,9 +59,9 @@ export class HtmlLogger implements Logger {
     public language: Language = "en",
   ) {}
 
-  log(level: LogLevel, message: string): void {
-    if (this.enabled.has(level)) {
-      this.logs.push(`<p>[${level}] ${message}</p>`);
+  log(message: LogMessage): void {
+    if (this.enabled.has(message.level)) {
+      this.logs.push(`<p>[${message.level}] ${message.text}</p>`);
     }
   }
 

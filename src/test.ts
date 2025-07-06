@@ -19,7 +19,7 @@ const player2: Player = {
 };
 
 const logger = new ConsoleLogger(
-  new Set<LogLevel>(["game", "rally"]),
+  new Set<LogLevel>(["game", "rally", "match"]),
   // "rallyDetailed", "rally", "game",
   "ru",
 );
