@@ -22,12 +22,4 @@ const logger = new ConsoleLogger(
   new Set<LogLevel>(["rallyDetailed", "rally", "game", "match"]),
   "ru",
 );
-
-const result = simulateMatch(player1, player2, logger);
-console.log("Match result:");
-result.games.forEach((g, i) => {
-  console.log(
-    `Game ${i + 1}: ${g.scoreA}-${g.scoreB} winner: ${g.winner.name}`,
-  );
-});
-console.log(`Match winner: ${result.winner.name}`);
+simulateMatch(player1, player2, logger);
