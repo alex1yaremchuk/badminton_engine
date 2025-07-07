@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Badminton Engine Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #output p { margin: 0; }
+  </style>
+</head>
+<body>
+  <h1>Badminton Engine HTML Logger Test</h1>
+  <div id="output"></div>
+  <script src="engine.js"></script>
+  <script>
+    const { simulateMatch, HtmlLogger } = engine;
+    const playerA = {
+      name: 'Alice',
+      technique: 8,
+      mind: 7,
+      physique: 8,
+      emotion: 5,
+      serve: 3,
+    };
+    const playerB = {
+      name: 'Bob',
+      technique: 7,
+      mind: 7,
+      physique: 6,
+      emotion: 7,
+      serve: 6,
+    };
+    const logger = new HtmlLogger(new Set(['match','game','rally','rallyDetailed','debug']), 'en');
+    simulateMatch(playerA, playerB, logger);
+    document.getElementById('output').innerHTML = logger.toHtml();
+  </script>
+</body>
+</html>
