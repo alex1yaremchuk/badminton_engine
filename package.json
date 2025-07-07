@@ -1,10 +1,10 @@
 {
   "name": "badminton-engine",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && esbuild dist/index.js --bundle --format=iife --global-name=engine --outfile=engine.js",
+    "build": "tsc && npx esbuild dist/index.js --bundle --format=iife --global-name=engine --outfile=engine.js",
     "test": "node --loader ts-node/esm src/test.ts"
   },
   "description": "Simulation engine for badminton matches and tournaments",

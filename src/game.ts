@@ -1,5 +1,5 @@
 import { Player, GameResult, Logger } from "./types.js";
-import { simulateRally } from "./engine.js";
+import { simulateRally } from "./rally.js";
 import { adjustByAttribute } from "./utils.js";
 import { logMessages } from "./logMessages.js";
 
