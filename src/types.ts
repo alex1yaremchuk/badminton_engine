@@ -69,3 +69,17 @@ export class HtmlLogger implements Logger {
     return this.logs.join("\n");
   }
 }
+
+export class MultiLogger implements Logger {
+  public language: Language;
+
+  constructor(private loggers: Logger[], language?: Language) {
+    this.language = language ?? this.loggers[0]?.language ?? "en";
+  }
+
+  log(message: LogMessage): void {
+    for (const logger of this.loggers) {
+      logger.log(message);
+    }
+  }
+}

@@ -20,7 +20,13 @@ Compiled files will be placed into the `dist` directory and bundled to `engine.j
 ## Usage
 
 ```ts
-import { simulateMatch, ConsoleLogger, Player } from 'badminton-engine';
+import {
+  simulateMatch,
+  ConsoleLogger,
+  HtmlLogger,
+  MultiLogger,
+  Player,
+} from 'badminton-engine';
 
 const playerA: Player = {
   name: 'Alice',
@@ -40,13 +46,16 @@ const playerB: Player = {
   serve: 6,
 };
 
-const logger = new ConsoleLogger(new Set(['match', 'game']), 'en');
+const consoleLogger = new ConsoleLogger(new Set(['match', 'game']), 'en');
+const htmlLogger = new HtmlLogger(new Set(['match', 'game']), 'en');
+const logger = new MultiLogger([consoleLogger, htmlLogger]);
 
 const result = simulateMatch(playerA, playerB, logger);
 console.log(result);
+// HTML logger content is available via htmlLogger.toHtml();
 ```
-The logger accepts a language code (`'en'` or `'ru'`) and a set of log levels.
-The snippet above runs a single match simulation and prints the results to the console.
+Each logger accepts a language code (`'en'` or `'ru'`) and a set of log levels.
+The snippet above runs a single match simulation, prints the results to the console and collects HTML output for further inspection.
 
 ## License
 
