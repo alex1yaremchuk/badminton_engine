@@ -1,5 +1,11 @@
 import { simulateMatch } from "./match.js";
-import { Player, ConsoleLogger, LogLevel } from "./types.js";
+import {
+  Player,
+  ConsoleLogger,
+  HtmlLogger,
+  MultiLogger,
+  LogLevel,
+} from "./types.js";
 
 const player1: Player = {
   name: "Alice",
@@ -18,9 +24,15 @@ const player2: Player = {
   serve: 6,
 };
 
-const logger = new ConsoleLogger(
-  new Set<LogLevel>([/*"game", "rally",*/ "game", "debug", "rallyDetailed", "rally", "match"]),
-  // "rallyDetailed", "rally", "game",
+const consoleLogger = new ConsoleLogger(
+  new Set<LogLevel>(["game", "debug", "rallyDetailed", "rally", "match"]),
   "ru",
 );
+const htmlLogger = new HtmlLogger(
+  new Set<LogLevel>(["game", "debug", "rallyDetailed", "rally", "match"]),
+  "ru",
+);
+const logger = new MultiLogger([consoleLogger, htmlLogger]);
+
 simulateMatch(player1, player2, logger);
+console.log(htmlLogger.toHtml());
