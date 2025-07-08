@@ -66,7 +66,7 @@ export class HtmlLogger implements Logger {
   }
 
   toHtml(): string {
-    return this.logs.join("\n");
+    return this.logs.join("");
   }
 }
 
